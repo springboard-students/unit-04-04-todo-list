@@ -122,7 +122,6 @@ let isEnabled = function ( item ) {
   };
 
 export {
-defaults,
         todo,
         saveTodo,
         saveDefaultTodo,
