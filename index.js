@@ -2,7 +2,7 @@
 
 import { saveDefaultTodo, hasSavedData, addItem, removeItem, saveList, isEmpty, updateLastEnabled, isEnabled } from './commons.js';
 
-import { config } from './config.js';
+import { config } from './cfg.js';
 
 let mainDiv = document.querySelector('#main-div');
 let listDiv = document.querySelector('#list-div');

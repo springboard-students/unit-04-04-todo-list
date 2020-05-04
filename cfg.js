@@ -13,8 +13,8 @@ const config = {
 
 };
 
-let config = function(){
-  console.log('Hello, config!');
-};
+//let config = function(){
+//  console.log('Hello, config!');
+//};
 
 export { config }
