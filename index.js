@@ -1,28 +1,32 @@
 'use strict';
 
-import { saveDefaultTodo, hasSavedData, addItem, removeItem, saveList, isEmpty, updateLastEnabled, isEnabled } from './commons.js';
+import {
+  addItem,
+  hasSavedData,
+  isEnabled,
+  removeItem,
+  saveDefaultTodo,
+  saveList,
+  updateLastEnabled
+} from './commons.js';
 
-import { config } from './cfg.js';
+import {config} from './cfg.js';
 
 let mainDiv = document.querySelector('#main-div');
 let listDiv = document.querySelector('#list-div');
 
 addItem(listDiv);
 
-window.addEventListener('DOMContentLoaded', function ()
-{
-  if (!hasSavedData())
-  {
+window.addEventListener('DOMContentLoaded', function () {
+  if (!hasSavedData()) {
     saveDefaultTodo();
   }
 });
 
-listDiv.addEventListener('change', function (e)
-{
+listDiv.addEventListener('change', function (e) {
   let changed = e.target;
-  console.log( 'what changed:', changed );
-  if (changed.classList.contains('text'))
-  {
+  console.log('what changed:', changed);
+  if (changed.classList.contains('text')) {
     changed.toggleAttribute('disabled');
     changed.classList.toggle('is-editing');
     saveList();
@@ -30,22 +34,19 @@ listDiv.addEventListener('change', function (e)
   }
 });
 
-mainDiv.addEventListener('click', function (e)
-{
+mainDiv.addEventListener('click', function (e) {
   e.preventDefault();
 
   let clicked = e.target;
 
-  if (clicked.id === 'new-div')
-  {
+  if (clicked.id === 'new-div') {
     addItem(listDiv);
   }
 
 
   let item = clicked.closest('.item');
 
-  if (!item)
-  {
+  if (!item) {
     console.log('not an item');
     updateLastEnabled();
     return;
@@ -58,11 +59,10 @@ mainDiv.addEventListener('click', function (e)
   let isTextArea = clicked.classList.contains('text');
 
   let clickedParent = clicked.parentElement;
-  let isDoneBt = clickedParent.classList.contains('done');
-  let isRemoveBt = clickedParent.classList.contains('remove');
+  let isDoneBt      = clickedParent.classList.contains('done');
+  let isRemoveBt    = clickedParent.classList.contains('remove');
 
-  if (isTextArea)
-  {
+  if (isTextArea) {
 
     // The state is toggled
     clicked.toggleAttribute('disabled');
@@ -71,8 +71,7 @@ mainDiv.addEventListener('click', function (e)
     clicked.classList.toggle('is-editing');
 
     // If the stated was changed to 'enabled'
-    if (isEnabled(item))
-    {
+    if (isEnabled(item)) {
       // The previous enabled text area is updated
       updateLastEnabled();
 
@@ -80,22 +79,23 @@ mainDiv.addEventListener('click', function (e)
       clicked.focus();
       clicked.setAttribute('id', 'last_enabled');
     }
-  } else if (isDoneBt)
-  {
+  } else if (isDoneBt) {
     item.classList.toggle('item-completed');
     item.firstChild.classList.toggle('completed');
+    let content       = item.querySelector('.option-content');
+    content.innerHTML =
+      content.textContent === config.symbols.done ?
+      config.symbols.reopen :
+      config.symbols.done;
     item.querySelector('.options').classList.toggle('option-completed');
     clicked.toggleAttribute('disabled');
     saveList();
 
-  } else if (isRemoveBt)
-  {
+  } else if (isRemoveBt) {
     removeItem(item);
-  } else if (isItem)
-  {
+  } else if (isItem) {
     item.classList.toggle('clicked');
-  } else
-  {
+  } else {
     console.log('No action');
   }
 });
