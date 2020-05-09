@@ -1,36 +1,30 @@
 'use strict';
 
-import { config } from './cfg.js';
+import {config} from './cfg.js';
 
 let todo;
 
-let saveTodo = function (json)
-{
+let saveTodo = function (json) {
   console.log('Saving todo...');
   localStorage.setItem('todo', JSON.stringify(json));
 };
 
-let saveDefaultTodo = function ()
-{
+let saveDefaultTodo = function () {
   console.log('Saving default todo...');
   saveTodo(config.defaults);
 };
 
-let hasSavedData = function ()
-{
+let hasSavedData = function () {
   return todo !== null && todo !== undefined;
 };
 
-let isEmpty = function( obj )
-{
-  let itIs = (obj === null)
-          || (typeof obj === 'undefined')
-          || (typeof obj.length !== 'undefined' && obj.length === 0)
-          || (typeof obj.size === 'undefine' && obj.size() === 0);
+let isEmpty = function (obj) {
+  let itIs = (obj === null) || (typeof obj === 'undefined') ||
+             (typeof obj.length !== 'undefined' && obj.length === 0) ||
+             (typeof obj.size === 'undefine' && obj.size() === 0);
 };
 
-let addItem = function (elem)
-{
+let addItem = function (elem) {
 
   let item = document.createElement('div');
   item.classList.add('item');
@@ -72,64 +66,63 @@ let addItem = function (elem)
 
 };
 
-let removeItem = function (elem)
-{
+let removeItem = function (elem) {
   elem.remove();
   saveList();
 };
 
-let allItems = function ()
-{
+let allItems = function () {
   return document.querySelectorAll('.item');
 };
 
-let allTextareas = function ()
-{
+let allTextareas = function () {
   return document.querySelectorAll('textarea');
 };
 
-let saveList = function ()
-{
-  let todo = {data:[]};
+let saveList          = function () {
+  let todo  = {data: []};
   let items = allItems();
-  items.forEach( (item) =>
-  {
-    todo.data.push({"text": item.firstChild.value, "completed": item.classList.contains('item-completed')});
+  items.forEach((item) => {
+    todo.data.push({
+                     "text"     : item.firstChild.value,
+                     "completed": item.classList.contains('item-completed')
+                   });
   });
-  localStorage.setItem( "todo", JSON.stringify(todo));
-  console.log( 'retrieved:', localStorage.getItem('todo'));
+  localStorage.setItem("todo", JSON.stringify(todo));
+  console.log('retrieved:', localStorage.getItem('todo'));
+};
+let getLastEnabled    = function () {
+  return document.querySelector('#last_enabled');
+}
+let updateLastEnabled = function () {
+  let lastEnabled = getLastEnabled();
+  if (lastEnabled) {
+    lastEnabled.removeAttribute('id');
+    lastEnabled.setAttribute('disabled', true);
+    lastEnabled.classList.remove('is-editing');
+    lastEnabled.closest('.item').classList.remove('clicked');
+    console.log('last previous cleaned', lastEnabled);
+  }
+  return !isEmpty(lastEnabled);
 };
 
-let updateLastEnabled = function ()
-  {
-    let lastEnabled = document.querySelector('#last_enabled');
-    if (lastEnabled)
-    {
-      lastEnabled.removeAttribute('id');
-      lastEnabled.setAttribute('disabled', true);
-      lastEnabled.classList.remove('is-editing');
-      lastEnabled.closest('.item').classList.remove('clicked');
-      console.log('last previous cleaned', lastEnabled);
-    }
-    return !isEmpty( lastEnabled );
-  };
-
-let isEnabled = function ( item ) {
-    let ta = item.querySelector('textarea');
-    let result = !(isEmpty(ta.getAttribute('disabled')));
-    console.log('ta', ta, 'result', result);
-    return result;
-  };
+let isEnabled = function (item) {
+  let ta     = item.querySelector('textarea');
+  let result = !(isEmpty(ta.getAttribute('disabled')));
+  console.log('ta', ta, 'result', result);
+  return result;
+};
 
 export {
-        todo,
-        saveTodo,
-        saveDefaultTodo,
-        hasSavedData,
-        addItem,
-        removeItem,
-        saveList,
-        isEmpty,
-        updateLastEnabled,
-        isEnabled
+  todo,
+  saveTodo,
+  saveDefaultTodo,
+  hasSavedData,
+  addItem,
+  removeItem,
+  saveList,
+  isEmpty,
+  updateLastEnabled,
+  isEnabled,
+  getLastEnabled
 }

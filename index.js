@@ -2,6 +2,7 @@
 
 import {
   addItem,
+  getLastEnabled,
   hasSavedData,
   isEnabled,
   removeItem,
@@ -70,25 +71,33 @@ mainDiv.addEventListener('click', function (e) {
     // And the class 'is-editing' is removed from the Textarea
     clicked.classList.toggle('is-editing');
 
+    // And the 'disabled' attribute is toggled
+    if (clicked.getAttribute('disabled')) {
+      clicked.removeAttribute('disabled');
+    } else {
+      clicked.setAttribute('disable', '');
+    }
+
+
     // If the stated was changed to 'enabled'
     if (isEnabled(item)) {
-      // The previous enabled text area is updated
-      updateLastEnabled();
-
       // The focus is given to this text area
       clicked.focus();
-      clicked.setAttribute('id', 'last_enabled');
+      if (getLastEnabled() && getLastEnabled().id !== item.id) {
+        // The previous enabled text area is updated
+        updateLastEnabled();
+        clicked.setAttribute('id', 'last_enabled');
+      }
     }
   } else if (isDoneBt) {
     item.classList.toggle('item-completed');
     item.firstChild.classList.toggle('completed');
     let content       = item.querySelector('.option-content');
     content.innerHTML =
-      content.textContent === config.symbols.done ?
-      config.symbols.reopen :
+      content.textContent === config.symbols.done ? config.symbols.reopen :
       config.symbols.done;
     item.querySelector('.options').classList.toggle('option-completed');
-    clicked.toggleAttribute('disabled');
+
     saveList();
 
   } else if (isRemoveBt) {
