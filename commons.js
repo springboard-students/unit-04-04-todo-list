@@ -20,9 +20,13 @@ const hasSavedData = function () {
 };
 
 const isEmpty = function (obj) {
-  const itIs = (obj === null) || (typeof obj === 'undefined') ||
-               (typeof obj.length !== 'undefined' && obj.length === 0) ||
-               (typeof obj.size === 'undefined' && obj.size() === 0);
+  return obj === null ||
+         obj === 'null' ||
+         obj === undefined ||
+         obj === 'undefined' ||
+         typeof obj === 'undefined' ||
+         (typeof obj.length !== 'undefined' && obj.length === 0) ||
+         obj.size === 0;
 };
 
 const addItem = function (elem) {
@@ -80,8 +84,8 @@ const allTextareas = function () {
   return document.querySelectorAll('textarea');
 };
 
-const saveList          = function () {
-  const todo  = {data: []};
+const saveList = function () {
+  const todo = {data: []};
   const items = allItems();
   items.forEach((item) => {
     todo.data.push({
@@ -93,7 +97,7 @@ const saveList          = function () {
   console.log('retrieved:', localStorage.getItem('todo'));
 };
 
-const getLastEnabled    = function () {
+const getLastEnabled = function () {
   return document.querySelector('#last_enabled');
 };
 
@@ -103,14 +107,16 @@ const updateLastEnabled = function () {
     lastEnabled.removeAttribute('id');
     lastEnabled.setAttribute('disabled', true);
     lastEnabled.classList.remove('is-editing');
-    lastEnabled.closest('.item').classList.remove('clicked');
+    lastEnabled.closest('.item')
+               .classList
+               .remove('clicked');
     console.log('last previous cleaned', lastEnabled);
   }
   return !isEmpty(lastEnabled);
 };
 
 const isEnabled = function (item) {
-  const ta     = item.querySelector('textarea');
+  const ta = item.querySelector('textarea');
   const result = !(isEmpty(ta.getAttribute('disabled')));
   console.log('ta', ta, 'result', result);
   return result;
