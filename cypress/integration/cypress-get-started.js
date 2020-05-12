@@ -72,6 +72,8 @@ describe('Misc Tests - For Studying', () => {
       .eq(1)
       .find('.remove')
       .click()
+      .get('#list-div')
+      .get('.item')
       .its('length')
       .should('eq', 2);
   });
