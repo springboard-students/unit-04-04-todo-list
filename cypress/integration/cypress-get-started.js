@@ -14,13 +14,12 @@ describe('Misc Tests - For Studying', () => {
   });
 
   it('Enables the textarea for editing', () => {
-    cy.get('#list-div')
-      .get('.item')
-      .first()
-      .click()
-      .type('abc')
-      .click();
+    cy.visit(tdlUrl);
+    cy.get('#list-div').get('.item').first().as('txtarea');
+    cy.get('@txtarea').click();
+      // .wait(1000).type('abc').click();
   });
+  /*
   it('Add an item', () => {
     cy.visit(tdlUrl)
       .get('#new-div')
@@ -41,40 +40,21 @@ describe('Misc Tests - For Studying', () => {
       .should('eq', 3);
   });
   it('Removes the second item', () => {
-    cy.visit(tdlUrl)
-      .get('#list-div')
-      .get('.item')
-      .first()
-      .click()
-      .type('aaa')
-      .wait(1000)
-      .click()
+    cy.visit(tdlUrl).get('#list-div').get('.item').first()
+      .click().type('aaa')
+      .wait(1000).click()
       .get('#new-div')
       .click()
-      .get('#list-div')
-      .get('.item')
-      .eq(1)
-      .first()
-      .click()
-      .type('bbb')
-      .wait(1000)
-      .click()
+      .get('#list-div').get('.item').eq(1).first()
+      .click().type('bbb')
+      .wait(1000).click()
       .get('#new-div')
       .click()
-      .get('#list-div')
-      .get('.item')
-      .eq(2)
-      .first()
+      .get('#list-div').get('.item').eq(2).first()
+      .click().type('ccc')
+      .get('#list-div').get('.item').eq(1).find('.remove')
       .click()
-      .type('ccc')
-      .get('#list-div')
-      .get('.item')
-      .eq(1)
-      .find('.remove')
-      .click()
-      .get('#list-div')
-      .get('.item')
-      .its('length')
-      .should('eq', 2);
+      .get('#list-div').get('.item').its('length').should('eq', 2);
   });
+*/
 });

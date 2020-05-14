@@ -75,7 +75,7 @@ mainDiv.addEventListener('click', function (e) {
     if (clicked.getAttribute('disabled')) {
       clicked.removeAttribute('disabled');
     } else {
-      clicked.setAttribute('disable', '');
+      clicked.setAttribute('disable', 'true');
     }
 
 
