@@ -8,7 +8,8 @@ import {
   removeItem,
   saveDefaultTodo,
   saveList,
-  updateLastEnabled
+  updateLastEnabled,
+  toggleEnableDisable
 } from './commons.js';
 
 import {config} from './cfg.js';
@@ -66,17 +67,20 @@ mainDiv.addEventListener('click', function (e) {
   if (isTextArea) {
 
     // The state is toggled
-    clicked.toggleAttribute('disabled');
+    // clicked.toggleAttribute('disabled');
+
+    toggleEnableDisable(clicked);
 
     // And the class 'is-editing' is removed from the Textarea
     clicked.classList.toggle('is-editing');
 
     // And the 'disabled' attribute is toggled
-    if (clicked.getAttribute('disabled')) {
-      clicked.removeAttribute('disabled');
-    } else {
-      clicked.setAttribute('disable', 'true');
-    }
+    // const hasDisabled = clicked.getAttribute('disabled');
+    // if ( hasDisabled ) {
+    //   clicked.removeAttribute('disabled');
+    // } else {
+    //   clicked.setAttribute('disable', 'true');
+    // }
 
 
     // If the stated was changed to 'enabled'

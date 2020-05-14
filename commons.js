@@ -36,7 +36,7 @@ const addItem = function (elem) {
 
   const text = document.createElement('textarea');
   text.classList.add('text');
-  text.toggleAttribute('disabled');
+  text.setAttribute('disabled', 'true');
 
   const options = document.createElement('div');
   options.classList.add('options');
@@ -117,10 +117,19 @@ const updateLastEnabled = function () {
 
 const isEnabled = function (item) {
   const ta = item.querySelector('textarea');
-  const result = !(isEmpty(ta.getAttribute('disabled')));
+  const result = isEmpty(ta.getAttribute('disabled'));
   console.log('ta', ta, 'result', result);
   return result;
 };
+
+const toggleEnableDisable = function( txtArea ){
+  if ( isEmpty( txtArea.getAttribute('disabled') ) )
+  {
+    txtArea.setAttribute('disabled', 'true');
+    return;
+  }
+  txtArea.removeAttribute('disabled');
+}
 
 export {
   todo,
@@ -133,5 +142,6 @@ export {
   isEmpty,
   updateLastEnabled,
   isEnabled,
-  getLastEnabled
+  getLastEnabled,
+  toggleEnableDisable
 }
