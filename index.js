@@ -1,5 +1,6 @@
 'use strict';
 
+import {config} from './cfg.js';
 import {
   addItem,
   getLastEnabled,
@@ -8,11 +9,9 @@ import {
   removeItem,
   saveDefaultTodo,
   saveList,
-  updateLastEnabled,
-  toggleEnableDisable
-} from './commons.js';
-
-import {config} from './cfg.js';
+  toggleEnableDisable,
+  updateLastEnabled
+}               from './commons.js';
 
 let mainDiv = document.querySelector('#main-div');
 let listDiv = document.querySelector('#list-div');
@@ -45,7 +44,6 @@ mainDiv.addEventListener('click', function (e) {
     addItem(listDiv);
   }
 
-
   let item = clicked.closest('.item');
 
   if (!item) {
@@ -54,15 +52,18 @@ mainDiv.addEventListener('click', function (e) {
     return;
   }
 
-  item.classList.toggle('clicked');
+  let lastItemClicked = document.querySelector('.clicked');
+  if ( !lastItemClicked || lastItemClicked.id !== item.id ) {
+    item.classList.toggle('clicked');
+  }
 
   let isItem = clicked.classList.contains('item');
 
   let isTextArea = clicked.classList.contains('text');
 
   let clickedParent = clicked.parentElement;
-  let isDoneBt      = clickedParent.classList.contains('done');
-  let isRemoveBt    = clickedParent.classList.contains('remove');
+  let isDoneBt = clickedParent.classList.contains('done');
+  let isRemoveBt = clickedParent.classList.contains('remove');
 
   if (isTextArea) {
 
@@ -96,9 +97,10 @@ mainDiv.addEventListener('click', function (e) {
   } else if (isDoneBt) {
     item.classList.toggle('item-completed');
     item.firstChild.classList.toggle('completed');
-    let content       = item.querySelector('.option-content');
+    let content = item.querySelector('.option-content');
     content.innerHTML =
-      content.textContent === config.symbols.done ? config.symbols.reopen :
+      content.textContent === config.symbols.done ?
+      config.symbols.reopen :
       config.symbols.done;
     item.querySelector('.options').classList.toggle('option-completed');
 

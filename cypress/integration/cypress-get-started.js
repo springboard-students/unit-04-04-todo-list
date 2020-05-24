@@ -16,8 +16,10 @@ describe('Misc Tests - For Studying', () => {
   it('Enables the textarea for editing', () => {
     cy.visit(tdlUrl);
     cy.get('#list-div').get('.item').first().as('txtarea');
-    cy.get('@txtarea').click();
-      // .wait(1000).type('abc').click();
+    cy.get('@txtarea').click()
+      .wait(1000).type('abc')
+      .wait(1000).type(' def')
+      .click();
   });
   /*
   it('Add an item', () => {
